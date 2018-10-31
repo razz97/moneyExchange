@@ -10,11 +10,11 @@ import Foundation
 
 class Currency: Equatable {
 
-    var name: String!
-    var code: String!
-    var symbol: String!
-    var imgSource: String!
-    var euroValue: Double!
+    var name: String
+    var code: String
+    var symbol: String
+    var imgSource: String
+    var euroValue: Double
     
     init(name:String, code:String, symbol:String, imgSource:String, euroValue:Double) {
         self.name = name
@@ -24,9 +24,9 @@ class Currency: Equatable {
         self.euroValue = euroValue
     }
     
-    // How much is 1 of self compared to the other currency
+    // How much is 1 unit of self compared to the other currency
     func getRate(other:Currency) -> Double {
-        return other.euroValue / euroValue
+        return euroValue / other.euroValue
     }
     
     static func == (lhs: Currency, rhs: Currency) -> Bool {

@@ -8,11 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate{
+class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate, UITextFieldDelegate{
     
     @IBOutlet weak var fieldAmount: UITextField!
     
-    @IBOutlet weak var txtConversion: UITextField!
+    @IBOutlet weak var txtResult: UILabel!
     
     @IBOutlet weak var pickerView: UIPickerView!
     
@@ -20,17 +20,26 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     var to: Currency = Currency.init(name: "Euro", code: "EUR", symbol: "€", imgSource: "", euroValue: 1.00)
     
     var currencies: [Currency] = [
-        Currency.init(name: "Euro", code: "EUR", symbol: "€", imgSource: "", euroValue: 1.00),
-        Currency.init(name: "Dollar", code: "USD", symbol: "＄", imgSource: "", euroValue: 0.87676),
-        Currency.init(name: "Yen", code: "JPY", symbol: "¥", imgSource: "", euroValue: 0.00784),
-        Currency.init(name: "Pound", code: "GBP", symbol: "£", imgSource: "", euroValue: 1.12466),
-        Currency.init(name: "Rupee", code: "INR", symbol: "₹", imgSource: "", euroValue: 0.01199),
+        Currency(name: "Euro", code: "EUR", symbol: "€", imgSource: "", euroValue: 1.00),
+        Currency(name: "Dollar", code: "USD", symbol: "＄", imgSource: "", euroValue: 0.87676),
+        Currency(name: "Yen", code: "JPY", symbol: "¥", imgSource: "", euroValue: 0.00784),
+        Currency(name: "Pound", code: "GBP", symbol: "£", imgSource: "", euroValue: 1.12466),
+        Currency(name: "Rupee", code: "INR", symbol: "₹", imgSource: "", euroValue: 0.01199),
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         pickerView.dataSource = self
         pickerView.delegate = self
+        fieldAmount.delegate = self
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField.text != "" || string != "" {
+            let res = (textField.text ?? "") + string
+            return Double(res) != nil
+        }
+        return true
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -55,14 +64,18 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }
     
     func applyConversion() {
+        let amount = Double(fieldAmount.text!)
         
-        if from == to {
-            txtConversion.text = fieldAmount.text
-        } else {
-            let val = Double(fieldAmount.text!)! * from.getRate(other: to)
-            txtConversion.text = String(format: "%.4f", val)
+        if amount != nil && from != to {
+            let val = amount! * from.getRate(other: to)
+            txtResult.text = String(format: "%.4f", val)
+        } else if fieldAmount.text != nil {
+            txtResult.text = fieldAmount.text
         }
-        
+    }
+    
+    @IBAction func amntChanged(_ sender: UITextField) {
+        applyConversion()
     }
     
 }
