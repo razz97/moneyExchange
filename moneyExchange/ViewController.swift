@@ -14,18 +14,34 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     
     @IBOutlet weak var txtResult: UILabel!
     
+    @IBOutlet weak var btnConvert: UIButton!
+    
+    @IBOutlet weak var autoSwitch: UISwitch!
+    
     @IBOutlet weak var pickerView: UIPickerView!
     
-    var from: Currency = Currency.init(name: "Euro", code: "EUR", symbol: "€", imgSource: "", euroValue: 1.00)
-    var to: Currency = Currency.init(name: "Euro", code: "EUR", symbol: "€", imgSource: "", euroValue: 1.00)
+    @IBOutlet weak var imgFlag: UIImageView!
+    
+    @IBOutlet weak var txtFlag: UILabel!
+    
+    @IBOutlet weak var txtValFlag: UILabel!
+    
+    @IBOutlet weak var btnHack: UIButton!
+    
+    
+    var from: Currency = Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!, euroValue: 1.00)
+    
+    var to: Currency = Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!, euroValue: 1.00)
     
     var currencies: [Currency] = [
-        Currency(name: "Euro", code: "EUR", symbol: "€", imgSource: "", euroValue: 1.00),
-        Currency(name: "Dollar", code: "USD", symbol: "＄", imgSource: "", euroValue: 0.87676),
-        Currency(name: "Yen", code: "JPY", symbol: "¥", imgSource: "", euroValue: 0.00784),
-        Currency(name: "Pound", code: "GBP", symbol: "£", imgSource: "", euroValue: 1.12466),
-        Currency(name: "Rupee", code: "INR", symbol: "₹", imgSource: "", euroValue: 0.01199),
+        Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!, euroValue: 1.00),
+        Currency(name: "Dollar", code: "USD", symbol: "＄", img: UIImage(named: "dollar")!, euroValue: 0.87676),
+        Currency(name: "Yen", code: "JPY", symbol: "¥", img: UIImage(named: "yen")!, euroValue: 0.00784),
+        Currency(name: "Pound", code: "GBP", symbol: "£", img: UIImage(named: "pound")!, euroValue: 1.12466),
+        Currency(name: "Rupee", code: "INR", symbol: "₹", img: UIImage(named: "rupee")!, euroValue: 0.01199),
     ]
+    
+    var indexSelected: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +76,9 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         } else {
             to = currencies[didSelectRow]
         }
-        applyConversion()
+        if autoSwitch.isOn {
+            applyConversion()
+        }
     }
     
     func applyConversion() {
@@ -75,7 +93,34 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }
     
     @IBAction func amntChanged(_ sender: UITextField) {
+        if autoSwitch.isOn {
+            applyConversion()
+        }
+        btnHack.isHidden = sender.text != "999"
+    }
+    
+    @IBAction func autoSwitchChanged(_ sender: UISwitch) {
+        btnConvert.isHidden = sender.isOn
+    }
+    
+    @IBAction func convertTapped(_ sender: UIButton) {
         applyConversion()
+    }
+    @IBAction func nextTapped(_ sender: UIButton) {
+        indexSelected = currencies.count == indexSelected + 1 ? 0 : indexSelected + 1
+        changeFlag()
+
+    }
+    @IBAction func prevTapped(_ sender: UIButton) {
+        indexSelected = indexSelected == 0 ? currencies.count - 1 : indexSelected - 1
+        changeFlag()
+    }
+    
+    func changeFlag() {
+        let currency:Currency = currencies[indexSelected]
+        imgFlag.image = currency.img
+        txtFlag.text = currency.name
+        txtValFlag.text = "\(currency.euroValue) €"
     }
     
 }

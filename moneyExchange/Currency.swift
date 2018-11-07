@@ -7,20 +7,21 @@
 //
 
 import Foundation
+import UIKit
 
 class Currency: Equatable {
 
     var name: String
     var code: String
     var symbol: String
-    var imgSource: String
+    var img: UIImage = UIImage()
     var euroValue: Double
     
-    init(name:String, code:String, symbol:String, imgSource:String, euroValue:Double) {
+    init(name:String, code:String, symbol:String, img:UIImage, euroValue:Double) {
         self.name = name
         self.code = code
         self.symbol = symbol
-        self.imgSource = imgSource
+        self.img = img
         self.euroValue = euroValue
     }
     
