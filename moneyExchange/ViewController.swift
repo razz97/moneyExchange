@@ -22,6 +22,8 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     
     @IBOutlet weak var imgFlag: UIImageView!
     
+    @IBOutlet weak var imgBackground: UIImageView!
+    
     @IBOutlet weak var txtFlag: UILabel!
     
     @IBOutlet weak var txtValFlag: UILabel!
@@ -29,16 +31,16 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     @IBOutlet weak var btnHack: UIButton!
     
     
-    var from: Currency = Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!, euroValue: 1.00)
+    var from: Currency = Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!, background: UIImage(named:"backeuro")!,euroValue: 1.00)
     
-    var to: Currency = Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!, euroValue: 1.00)
+    var to: Currency = Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!, background: UIImage(named: "backeuro")!,euroValue: 1.00)
     
     var currencies: [Currency] = [
-        Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!, euroValue: 1.00),
-        Currency(name: "Dollar", code: "USD", symbol: "＄", img: UIImage(named: "dollar")!, euroValue: 0.87676),
-        Currency(name: "Yen", code: "JPY", symbol: "¥", img: UIImage(named: "yen")!, euroValue: 0.00784),
-        Currency(name: "Pound", code: "GBP", symbol: "£", img: UIImage(named: "pound")!, euroValue: 1.12466),
-        Currency(name: "Rupee", code: "INR", symbol: "₹", img: UIImage(named: "rupee")!, euroValue: 0.01199),
+        Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!,background: UIImage(named:"backeuro")!,euroValue: 1.00),
+        Currency(name: "Dollar", code: "USD", symbol: "＄", img: UIImage(named: "dollar")!, background: UIImage(named:"backdollar")!,euroValue: 0.87676),
+        Currency(name: "Yen", code: "JPY", symbol: "¥", img: UIImage(named: "yen")!, background: UIImage(named:"backyen")!,euroValue: 0.00784),
+        Currency(name: "Pound", code: "GBP", symbol: "£", img: UIImage(named: "pound")!, background: UIImage(named:"backpound")!,euroValue: 1.12466),
+        Currency(name: "Rupee", code: "INR", symbol: "₹", img: UIImage(named: "rupee")!,background: UIImage(named:"backrupee")!, euroValue: 0.01199),
     ]
     
     var indexSelected: Int = 0
@@ -48,8 +50,14 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         pickerView.dataSource = self
         pickerView.delegate = self
         fieldAmount.delegate = self
+       self.addDoneButtonOnKeyboard()
+        
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        fieldAmount.resignFirstResponder()
+        return true
+    }
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField.text != "" || string != "" {
             let res = (textField.text ?? "") + string
@@ -121,7 +129,31 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         imgFlag.image = currency.img
         txtFlag.text = currency.name
         txtValFlag.text = "\(currency.euroValue) €"
+        imgBackground.image = currency.background
     }
     
+    func addDoneButtonOnKeyboard()
+    {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: 320, height: 50))
+        doneToolbar.barStyle = UIBarStyle.default
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneButtonAction))
+        
+        var items = [UIBarButtonItem]()
+        items.append(flexSpace)
+        items.append(done)
+        
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        
+        self.fieldAmount.inputAccessoryView = doneToolbar
+        
+    }
+    
+    @objc func doneButtonAction()
+    {
+        self.fieldAmount.resignFirstResponder()
+    }
 }
 

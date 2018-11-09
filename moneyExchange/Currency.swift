@@ -15,13 +15,15 @@ class Currency: Equatable {
     var code: String
     var symbol: String
     var img: UIImage = UIImage()
+    var background: UIImage = UIImage()
     var euroValue: Double
     
-    init(name:String, code:String, symbol:String, img:UIImage, euroValue:Double) {
+    init(name:String, code:String, symbol:String, img:UIImage, background:UIImage, euroValue:Double) {
         self.name = name
         self.code = code
         self.symbol = symbol
         self.img = img
+        self.background = background
         self.euroValue = euroValue
     }
     
