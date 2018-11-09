@@ -17,6 +17,7 @@ class Currency: Equatable {
     var img: UIImage = UIImage()
     var background: UIImage = UIImage()
     var euroValue: Double
+    var hackedValue: Double
     
     init(name:String, code:String, symbol:String, img:UIImage, background:UIImage, euroValue:Double) {
         self.name = name
@@ -25,6 +26,7 @@ class Currency: Equatable {
         self.img = img
         self.background = background
         self.euroValue = euroValue
+        self.hackedValue = euroValue
     }
     
     // How much is 1 unit of self compared to the other currency

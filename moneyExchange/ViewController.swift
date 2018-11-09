@@ -128,7 +128,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         let currency:Currency = currencies[indexSelected]
         imgFlag.image = currency.img
         txtFlag.text = currency.name
-        txtValFlag.text = "\(currency.euroValue) €"
+        txtValFlag.text = "\(currency.hackedValue) €"
         imgBackground.image = currency.background
     }
     
