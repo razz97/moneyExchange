@@ -31,17 +31,11 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     @IBOutlet weak var btnHack: UIButton!
     
     
-    var from: Currency = Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!, background: UIImage(named:"backeuro")!,euroValue: 1.00)
+    var from: Currency!
     
-    var to: Currency = Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!, background: UIImage(named: "backeuro")!,euroValue: 1.00)
+    var to: Currency!
     
-    var currencies: [Currency] = [
-        Currency(name: "Euro", code: "EUR", symbol: "€", img: UIImage(named: "euro")!,background: UIImage(named:"backeuro")!,euroValue: 1.00),
-        Currency(name: "Dollar", code: "USD", symbol: "＄", img: UIImage(named: "dollar")!, background: UIImage(named:"backdollar")!,euroValue: 0.87676),
-        Currency(name: "Yen", code: "JPY", symbol: "¥", img: UIImage(named: "yen")!, background: UIImage(named:"backyen")!,euroValue: 0.00784),
-        Currency(name: "Pound", code: "GBP", symbol: "£", img: UIImage(named: "pound")!, background: UIImage(named:"backpound")!,euroValue: 1.12466),
-        Currency(name: "Rupee", code: "INR", symbol: "₹", img: UIImage(named: "rupee")!,background: UIImage(named:"backrupee")!, euroValue: 0.01199),
-    ]
+    var currencies: [Currency] = Persistence.getCurrencies()
     
     var indexSelected: Int = 0
     
@@ -50,7 +44,9 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         pickerView.dataSource = self
         pickerView.delegate = self
         fieldAmount.delegate = self
-       self.addDoneButtonOnKeyboard()
+        from = currencies[0]
+        to = currencies[0]
+        self.addDoneButtonOnKeyboard()
         
     }
     

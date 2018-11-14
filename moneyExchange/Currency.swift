@@ -9,8 +9,9 @@
 import Foundation
 import UIKit
 
-class Currency: Equatable {
-
+class Currency: NSObject, NSSecureCoding {
+    
+    static var supportsSecureCoding: Bool = true
     var name: String
     var code: String
     var symbol: String
@@ -37,4 +38,26 @@ class Currency: Equatable {
     static func == (lhs: Currency, rhs: Currency) -> Bool {
         return lhs.code == rhs.code
     }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: "name")
+        aCoder.encode(code, forKey: "code")
+        aCoder.encode(symbol, forKey: "symbol")
+        aCoder.encode(img, forKey: "img")
+        aCoder.encode(background, forKey: "background")
+        aCoder.encode(euroValue, forKey: "euroValue")
+        aCoder.encode(hackedValue, forKey: "hackedValue")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        self.name = aDecoder.decodeObject(forKey: "name") as? String ?? ""
+        self.code = aDecoder.decodeObject(forKey: "code") as? String ?? ""
+        self.symbol = aDecoder.decodeObject(forKey: "symbol") as? String ?? ""
+        self.img = aDecoder.decodeObject(forKey: "img") as? UIImage ?? UIImage()
+        self.background = aDecoder.decodeObject(forKey: "background") as? UIImage ?? UIImage()
+        self.euroValue = aDecoder.decodeDouble(forKey: "euroValue")
+        self.hackedValue = aDecoder.decodeDouble(forKey: "hackedValue")
+    }
 }
+
+
