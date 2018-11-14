@@ -41,6 +41,10 @@ class HackViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDe
         pos = didSelectRow
         fieldValue.text = String(currencies[pos].euroValue)
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
         
     
     @IBAction func apply(_ sender: UIButton) {

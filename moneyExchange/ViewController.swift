@@ -27,10 +27,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     @IBOutlet weak var txtFlag: UILabel!
     
     @IBOutlet weak var txtValFlag: UILabel!
-    
-    @IBOutlet weak var btnHack: UIButton!
-    
-    
+        
     var from: Currency!
     
     var to: Currency!
@@ -46,20 +43,10 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         fieldAmount.delegate = self
         from = currencies[0]
         to = currencies[0]
-        self.addDoneButtonOnKeyboard()
-        
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        fieldAmount.resignFirstResponder()
-        return true
-    }
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField.text != "" || string != "" {
-            let res = (textField.text ?? "") + string
-            return Double(res) != nil
-        }
-        return true
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -86,8 +73,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
     }
     
     func applyConversion() {
-        let amount = Double(fieldAmount.text!)
-        
+        let amount: Double? = Double(fieldAmount.text!)
         if amount != nil && from != to {
             let val = amount! * from.getRate(other: to)
             txtResult.text = String(format: "%.4f", val)
@@ -100,7 +86,9 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         if autoSwitch.isOn {
             applyConversion()
         }
-        btnHack.isHidden = sender.text != "999"
+        if sender.text == "999" {
+            performSegue(withIdentifier: "showHack", sender: self)
+        }
     }
     
     @IBAction func autoSwitchChanged(_ sender: UISwitch) {
@@ -128,28 +116,5 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         imgBackground.image = currency.background
     }
     
-    func addDoneButtonOnKeyboard()
-    {
-        let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: 320, height: 50))
-        doneToolbar.barStyle = UIBarStyle.default
-        
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
-        let done: UIBarButtonItem = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(doneButtonAction))
-        
-        var items = [UIBarButtonItem]()
-        items.append(flexSpace)
-        items.append(done)
-        
-        doneToolbar.items = items
-        doneToolbar.sizeToFit()
-        
-        self.fieldAmount.inputAccessoryView = doneToolbar
-        
-    }
-    
-    @objc func doneButtonAction()
-    {
-        self.fieldAmount.resignFirstResponder()
-    }
 }
 
