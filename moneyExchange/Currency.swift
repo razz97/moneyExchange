@@ -18,7 +18,6 @@ class Currency: NSObject, NSSecureCoding {
     var img: UIImage = UIImage()
     var background: UIImage = UIImage()
     var euroValue: Double
-    var hackedValue: Double
     
     init(name:String, code:String, symbol:String, img:UIImage, background:UIImage, euroValue:Double) {
         self.name = name
@@ -27,7 +26,6 @@ class Currency: NSObject, NSSecureCoding {
         self.img = img
         self.background = background
         self.euroValue = euroValue
-        self.hackedValue = euroValue
     }
     
     // How much is 1 unit of self compared to the other currency
@@ -46,7 +44,6 @@ class Currency: NSObject, NSSecureCoding {
         aCoder.encode(img, forKey: "img")
         aCoder.encode(background, forKey: "background")
         aCoder.encode(euroValue, forKey: "euroValue")
-        aCoder.encode(hackedValue, forKey: "hackedValue")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -56,7 +53,6 @@ class Currency: NSObject, NSSecureCoding {
         self.img = aDecoder.decodeObject(forKey: "img") as? UIImage ?? UIImage()
         self.background = aDecoder.decodeObject(forKey: "background") as? UIImage ?? UIImage()
         self.euroValue = aDecoder.decodeDouble(forKey: "euroValue")
-        self.hackedValue = aDecoder.decodeDouble(forKey: "hackedValue")
     }
 }
 

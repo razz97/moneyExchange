@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate, UITextFieldDelegate{
+class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate{
     
     @IBOutlet weak var fieldAmount: UITextField!
     
@@ -40,9 +40,9 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         super.viewDidLoad()
         pickerView.dataSource = self
         pickerView.delegate = self
-        fieldAmount.delegate = self
         from = currencies[0]
         to = currencies[0]
+        txtValFlag.text = String(currencies[0].euroValue)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -112,7 +112,7 @@ class ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelega
         let currency:Currency = currencies[indexSelected]
         imgFlag.image = currency.img
         txtFlag.text = currency.name
-        txtValFlag.text = "\(currency.hackedValue) €"
+        txtValFlag.text = "\(currency.euroValue) €"
         imgBackground.image = currency.background
     }
     
